@@ -103,7 +103,7 @@ If the specified quiz does not exist, the server returns the *404* (Not found) s
 
 A user can delete their quiz by sending the DELETE request to **/api/quizzes/{id}.**
 
-If the operation was successful, the service returns the 204 (No content) status code without any content.
+If the operation was successful, the service returns the *204 (No content)* status code without any content.
 
 If the specified quiz does not exist, the server returns *404 (Not found)*.
  If the specified user is not the author of this quiz, the response is the *403 (Forbidden)* status code.
