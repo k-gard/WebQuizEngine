@@ -55,7 +55,7 @@ The server response is a JSON with four fields: id, title, text and options. Her
     }
 
 
-If the request JSON does not contain title or text, or they are empty strings (""), then the server responds with the 400 (Bad request) status code.
+If the request JSON does not contain title or text, or they are empty strings (""), then the server responds with the *400* (Bad request) status code.
 If the number of options in the quiz is less than 2, the server returns the same status code.
 
 
@@ -64,7 +64,7 @@ If the number of options in the quiz is less than 2, the server returns the same
 
 ## Get a quiz by id
 
-To get a quiz by id, the client sends the GET request to /api/quizzes/{id}.
+To get a quiz by id, the client sends the GET request to **/api/quizzes/{id}**.
 
 If the passed answer is correct (POST to /api/quiz with content answer=2):
 
@@ -103,10 +103,10 @@ If the specified quiz does not exist, the server returns the *404* (Not found) s
 
 A user can delete their quiz by sending the DELETE request to **/api/quizzes/{id}.**
 
-If the operation was successful, the service returns the *204 (No content)* status code without any content.
+If the operation was successful, the service returns the *204* (No content) status code without any content.
 
-If the specified quiz does not exist, the server returns *404 (Not found)*.
- If the specified user is not the author of this quiz, the response is the *403 (Forbidden)* status code.
+If the specified quiz does not exist, the server returns *404* (Not found).
+ If the specified user is not the author of this quiz, the response is the *403* (Forbidden) status code.
 
 
 
@@ -142,7 +142,7 @@ The response contains a JSON with quizzes (inside content) and some additional m
 
 The API supports the navigation through pages by passing the page parameter ( `/api/quizzes?page=1`).
 The first page is 0 since pages start from zero.
-If there are no quizzes, content is empty []. If the user is authorized, the status code is 200 (OK); otherwise, it's 401 (Unauthorized).
+If there are no quizzes, content is empty []. If the user is authorized, the status code is *200* (OK); otherwise, it's *401* (Unauthorized).
 
 ## Get all completions of quizzes with paging
 
