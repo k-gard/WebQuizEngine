@@ -3,7 +3,7 @@
 a multi-user web service for creating and solving quizzes using REST API, 
 
 
-##Register a user
+## Register a user
 
 
 To register a new user, the client needs to send a JSON with email and password via POST request to **/api/register**.
