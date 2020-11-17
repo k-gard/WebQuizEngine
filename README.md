@@ -45,6 +45,15 @@ Here is a new JSON quiz as an example:
 
 The answer equals [0,2] corresponds to the first and the third item from the options array ("Americano" and "Cappuccino").
 
+
+
+
+
+
+## Get a quiz by id
+
+To get a quiz by id, the client sends the GET request to **/api/quizzes/{id}**.
+
 The server response is a JSON with four fields: id, title, text and options. Here is an example:
 
     {
@@ -59,20 +68,6 @@ If the request JSON does not contain title or text, or they are empty strings ("
 If the number of options in the quiz is less than 2, the server returns the same status code.
 
 
-
-
-
-## Get a quiz by id
-
-To get a quiz by id, the client sends the GET request to **/api/quizzes/{id}**.
-
-If the passed answer is correct (POST to /api/quiz with content answer=2):
-
-    {"success":true,"feedback":"Congratulations, you're right!"}
-
-If the answer is incorrect (e.g., POST to /api/quiz with content answer=1):
-
-    {"success":false,"feedback":"Wrong answer! Please, try again."}
 
 
 ## Solving a quiz
