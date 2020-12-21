@@ -1,6 +1,6 @@
 ## About
-
-a multi-user web service for creating and solving quizzes using REST API, 
+Sring Boot REST API.
+a multi-user web service for creating and solving quizzes.
 
 
 ## Register a user
