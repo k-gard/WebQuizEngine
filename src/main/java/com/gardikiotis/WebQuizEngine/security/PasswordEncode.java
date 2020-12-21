@@ -1,4 +1,4 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

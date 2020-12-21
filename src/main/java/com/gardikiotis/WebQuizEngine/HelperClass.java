@@ -1,5 +1,7 @@
 package com.gardikiotis.WebQuizEngine;
 
+import com.gardikiotis.WebQuizEngine.models.Quiz;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

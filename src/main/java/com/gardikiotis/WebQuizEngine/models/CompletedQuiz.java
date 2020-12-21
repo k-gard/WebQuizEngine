@@ -1,4 +1,4 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -11,10 +11,12 @@ public class CompletedQuiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
-    @JsonIgnore
+    //@JsonIgnore
     private int quizId;
     @Column
     private LocalDateTime completedAt;
+
+
    /* @Column
     private int userId;*/
 

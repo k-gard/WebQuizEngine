@@ -1,14 +1,12 @@
 package com.gardikiotis.WebQuizEngine;
 
+import com.gardikiotis.WebQuizEngine.models.Error;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.UnexpectedTypeException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
@@ -26,12 +24,12 @@ public class QuizControllerExceptionsHandler {
             UnexpectedTypeException ex) {
 
         return ResponseEntity.badRequest().body(new Error("400","Missing field"));
-    }
+    }*/
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleValidationExceptions(
             MethodArgumentNotValidException ex) {
 
-        return ResponseEntity.badRequest().body(new Error("400","Invalid Input"));
-    }*/
+        return new ResponseEntity(new Error("400","Password must have at least six characters"), HttpStatus.BAD_REQUEST);
+    }
 }

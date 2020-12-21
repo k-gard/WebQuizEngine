@@ -1,5 +1,7 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.services;
 
+import com.gardikiotis.WebQuizEngine.models.AppUser;
+import com.gardikiotis.WebQuizEngine.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,17 +16,17 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public void registerUser(CustomUser customUser){
-       repository.save(customUser);
+    public void registerUser(AppUser appUser){
+       repository.save(appUser);
     }
 
 
-    public CustomUser findUserById(int id) {
+    public AppUser findUserById(int id) {
        return repository.findById(id).get();
     }
 
-    public CustomUser findUserByEmail(String email) {
-        Collection<CustomUser> users = (Collection<CustomUser>) repository.findAll();
+    public AppUser findUserByEmail(String email) {
+        Collection<AppUser> users = (Collection<AppUser>) repository.findAll();
         try{
         return users.stream().filter(x -> x.getEmail().equals(email)).findFirst().get();}
         catch (NoSuchElementException e){
@@ -36,11 +38,11 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public List<CustomUser> getAllUsers() {
-        return (ArrayList<CustomUser>) repository.findAll();
+    public List<AppUser> getAllUsers() {
+        return (ArrayList<AppUser>) repository.findAll();
     }
 
-    public void updateUser(CustomUser user) {
+    public void updateUser(AppUser user) {
         repository.save(user);
     }
 }

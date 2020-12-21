@@ -1,23 +1,20 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.models;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class CustomUser implements UserDetails {
+public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,21 +31,31 @@ public class CustomUser implements UserDetails {
     private String permissions = "";
 
 
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name = "UserId", nullable = false)
+    @OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
+  //  @JoinColumn(name = "UserId", nullable = false
     List<Quiz> quizzes = new ArrayList<>();
 
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name = "UserId", nullable = false)
+
     List<CompletedQuiz> completedQuizzes = new ArrayList<>();
 
+    @OneToMany(cascade=CascadeType.ALL,mappedBy = "user")
+  //  @JoinColumn(name = "UserId", nullable = false)@
+    List<QuizSet> quizSets ;
 
-    public CustomUser(String email, @Length(min = 5) String password) {
+    @OneToMany(cascade=CascadeType.ALL,mappedBy = "user")
+    List<CompletedQuizSet> completedQuizSets ;
+
+
+
+
+    public AppUser(String email, @Length(min = 5) String password) {
         this.email = email;
         this.password = password;
     }
 
-    public CustomUser() {
+    public AppUser() {
     }
 
     public int getId() {
@@ -85,14 +92,12 @@ public class CustomUser implements UserDetails {
         this.quizzes.add(quiz);
     }
 
-    public boolean createdQuizWithId(int id) {
-  /*  for (Quiz q : quizzes){
-        if (q.getId() == id){
-            return true;
-        }
+    public void addQuizSet(QuizSet quizSet) {
+        this.quizSets.add(quizSet);
     }
-    return false;
-    }*/
+
+    public boolean createdQuizWithId(int id) {
+
         return quizzes.stream().anyMatch(x -> x.getId() == id);
     }
 
@@ -105,6 +110,16 @@ public class CustomUser implements UserDetails {
         }
     }
 
+    public  void deleteQuizSet(QuizSet q){
+        quizSets.stream().filter( x -> x.getId() == q.getId()).findFirst().ifPresent(quizSets::remove);
+//        for (int i = 0 ; i < quizzes.size() ; i++){
+//            if (quizzes.get(i).getId() == q.getId()){
+//               // System.out.println("Removing Index"+ i);
+//                quizzes.remove(q);
+//            }
+//        }
+    }
+
     public void addCompletedQuiz(CompletedQuiz completedQuiz){
         completedQuizzes.add(completedQuiz);
     }
@@ -112,6 +127,8 @@ public class CustomUser implements UserDetails {
     public List<CompletedQuiz> getCompletedQuizzes() {
         return completedQuizzes;
     }
+
+
 
     public String getRoles() {
         return roles;
@@ -188,7 +205,7 @@ public class CustomUser implements UserDetails {
 
     @Override
     public String toString() {
-        return "CustomUser{" +
+        return "AppUser{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
@@ -212,6 +229,44 @@ public class CustomUser implements UserDetails {
         }
     }
 
+    public Page<Quiz> getUsersQuizzesPaged(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        PageImpl<Quiz> page=new PageImpl<Quiz>(getQuizzes(), paging, getQuizzes().size());
 
 
+        if(page.hasContent()) {
+            return page;//.getContent();
+        } else {
+            return null ; //new ArrayList<Quiz>();
+        }
+    }
+
+    public void setCompletedQuizzes(List<CompletedQuiz> completedQuizzes) {
+        this.completedQuizzes = completedQuizzes;
+    }
+
+    public boolean createdQuizSetWithId(int id) {
+        return quizSets.stream().anyMatch(x -> x.getId() == id);
+    }
+
+    public List<QuizSet> getQuizSets() {
+        return quizSets;
+    }
+
+    public void setQuizSets(List<QuizSet> quizSets) {
+        this.quizSets = quizSets;
+    }
+
+    public List<CompletedQuizSet> getCompletedQuizSets() {
+        return completedQuizSets;
+    }
+
+    public void setCompletedQuizSets(List<CompletedQuizSet> completedQuizSets) {
+        this.completedQuizSets = completedQuizSets;
+    }
+
+    public void addCompletedQuizSet(CompletedQuizSet completedQuizSet){
+        this.completedQuizSets.add(completedQuizSet);
+    }
 }

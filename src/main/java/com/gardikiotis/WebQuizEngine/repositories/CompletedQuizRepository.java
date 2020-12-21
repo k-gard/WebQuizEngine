@@ -1,8 +1,7 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.repositories;
 
+import com.gardikiotis.WebQuizEngine.models.CompletedQuiz;
 import org.springframework.data.repository.PagingAndSortingRepository;
-
-import java.util.List;
 
 public interface CompletedQuizRepository  extends PagingAndSortingRepository<CompletedQuiz, Integer> {
 

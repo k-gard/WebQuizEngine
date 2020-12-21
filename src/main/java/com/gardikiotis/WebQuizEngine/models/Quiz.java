@@ -1,4 +1,4 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,6 +29,24 @@ public class Quiz {
 
 
 
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "quizSetId")
+    @JsonIgnore
+    private QuizSet quizSet;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    @JsonIgnore
+    private AppUser user;
+
+    public QuizSet getQuizSet() {
+        return quizSet;
+    }
+
+    public void setQuizSet(QuizSet quizSet) {
+        this.quizSet = quizSet;
+    }
+
     public Quiz(int id, String title, String text, String[] options, int[] answer) {
         this.id = id;
         this.title = title;
@@ -36,6 +54,8 @@ public class Quiz {
         this.options = options;
         this.answer = answer;
     }
+
+
 
     public Quiz() {
     }
@@ -102,5 +122,13 @@ public class Quiz {
                 ", options=" + Arrays.toString(options) +
                 ", answer=" + Arrays.toString(answer) +
                 '}';
+    }
+
+    public AppUser getUser() {
+        return user;
+    }
+
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 }

@@ -1,5 +1,9 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.controllers;
 
+import com.gardikiotis.WebQuizEngine.services.CompletedQuizService;
+import com.gardikiotis.WebQuizEngine.services.QuizService;
+import com.gardikiotis.WebQuizEngine.services.UserService;
+import com.gardikiotis.WebQuizEngine.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +18,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class QuizController {
     int i=1;
@@ -41,10 +45,29 @@ public class QuizController {
 
     }
 
+    @GetMapping(path = "api/myQuizzes")
+    public ResponseEntity<Page<Quiz>> getUsersQuizzesPaged(@RequestParam/*("pageNo")*/ int page){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AppUser user = userService.findUserByEmail(auth.getName());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+
+        return new ResponseEntity(quizService.getAllUserQuizzesPaged(user, page,10,"id"),headers,HttpStatus.OK);
+    //    return user.getUsersQuizzesPaged(page,10,"Id");
+    }
+
+//    @GetMapping(path = "api/myQuizzes")
+//    public ResponseEntity<List<Quiz>> getAllUsersPaged(){
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        AppUser user = userService.findUserByEmail(auth.getName());
+//        return new ResponseEntity<>(user.getQuizzes(),null,HttpStatus.OK);
+//    }
+
+
     @GetMapping(path = "api/quizzes/completed")
     public Page<CompletedQuiz> getUsersCompletedQuizzes(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        CustomUser user = userService.findUserByEmail(auth.getName());
+        AppUser user = userService.findUserByEmail(auth.getName());
         return user.getCompletedQuizzesPaged(0,10,"completedAt");
     }
 
@@ -54,15 +77,16 @@ public class QuizController {
     }
 
     @PostMapping(path = "/api/quizzes/{id}/solve" ,consumes = "application/json")
-    public ResponseEntity solveQuiz(@RequestBody UsersAnswer answer, @PathVariable("id") int id) {
+    public ResponseEntity solveQuiz(@RequestBody UserAnswer answer, @PathVariable("id") int id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        CustomUser user = userService.findUserByEmail(auth.getName());
+        AppUser user = userService.findUserByEmail(auth.getName());
+
         if (quizService.getQuizById(id).checkAnswer(answer.getAnswer())) {
             user.addCompletedQuiz(new CompletedQuiz(id, LocalDateTime.now()));
             userService.updateUser(user);
             return ResponseEntity.ok(new AnswerResult(true, "Congratulations, you're right!"));
         } else {
-            return ResponseEntity.ok(new AnswerResult(false, "Wrong answerResult! Please, try again."));
+            return ResponseEntity.ok(new AnswerResult(false, "Wrong answer! Please, try again."));
 
         }
     }
@@ -71,7 +95,7 @@ public class QuizController {
     public ResponseEntity deleteQuiz(@PathVariable int id) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        CustomUser user = userService.findUserByEmail(auth.getName());
+        AppUser user = userService.findUserByEmail(auth.getName());
         Quiz quiz =quizService.getQuizById(id);
         if (user.createdQuizWithId(id)){
         user.deleteQuiz(quiz);
@@ -85,10 +109,12 @@ public class QuizController {
     @PostMapping(path = "/api/quizzes" , consumes = "application/json")
     public Quiz postQuiz (@Valid @RequestBody Quiz q) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        CustomUser user = userService.findUserByEmail(auth.getName());
+        AppUser user = userService.findUserByEmail(auth.getName());
         if (q.getAnswer() == null){int[] a = {}; q.setAnswer(a); }
-        user.addQuiz(q);
-        userService.updateUser(user);
+        q.setUser(user);
+     //   user.addQuiz(q);
+   //     userService.updateUser(user);
+        quizService.saveQuiz(q);
         return q;
     }
 

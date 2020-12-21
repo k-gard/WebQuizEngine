@@ -1,12 +1,12 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.models;
 
-public class UsersAnswer {
+public class UserAnswer {
     private int[] answer;
 
-    public UsersAnswer() {
+    public UserAnswer() {
     }
 
-    public UsersAnswer(int[] answer) {
+    public UserAnswer(int[] answer) {
         this.answer = answer;
     }
 

@@ -1,4 +1,4 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.models;
 
 public class AnswerResult {
    private boolean success;

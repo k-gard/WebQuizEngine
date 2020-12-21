@@ -1,6 +1,9 @@
-package com.gardikiotis.WebQuizEngine;
+package com.gardikiotis.WebQuizEngine.services;
 
 //import com.sun.security.auth.UserPrincipal;
+import com.gardikiotis.WebQuizEngine.models.Error;
+import com.gardikiotis.WebQuizEngine.models.AppUser;
+import com.gardikiotis.WebQuizEngine.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-        CustomUser user = this.userRepository.findByEmail(s);
+        AppUser user = this.userRepository.findByEmail(s);
 
         return user;
     }
@@ -31,6 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @ExceptionHandler({UsernameNotFoundException.class})
     public ResponseEntity handleUsernameNotFoundException(){
-        return new ResponseEntity<>(new Error("Not Found","CustomUser does not exist"),null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new Error("Not Found","AppUser does not exist"),null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
