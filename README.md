@@ -170,4 +170,204 @@ Since it is allowed to solve a quiz multiple times, the response may contain dup
 If there are no quizzes, content is empty []. If the user is authorized, the status code is *200 (OK)*; otherwise, it's *401 (Unauthorized).*
 
 
+**Create a Quiz set**
+---------------------------------------
+To create a new quiz set, the client needs to send a JSON as the request's body via POST to  **/api/quizSet**. The JSON should contain the four fields:
+
+**category**: a string, required;  **description**: a string, required;  **quizzes**: an array of quizzes, required, should contain at least 5 items; 
+
+
+````JSON
+{
+
+"category":"Test",
+
+"description":"Test",
+
+"quizzes":[{
+
+"title":  "Coffee drinks",
+
+"text":  "Select only coffee drinks.",
+
+"options":  ["Americano","Tea","Cappuccino","Sprite"],
+
+"answer":  [0,2]
+
+},{
+
+"title":  "Coffee drinks",
+
+"text":  "Select only coffee drinks.",
+
+"options":  ["Americano","Tea","Cappuccino","Sprite"],
+
+"answer":  [0,2]
+
+},{
+
+"title":  "Coffee drinks",
+
+"text":  "Select only coffee drinks.",
+
+"options":  ["Americano","Tea","Cappuccino","Sprite"],
+
+"answer":  [0,2]
+
+}
+
+  
+
+]
+````
+
+
+**Delete a Quiz set**
+---------------------------------------
+
+A user can delete their quiz set by sending the DELETE request to  **/api/quizSet/{id}.**
+
+If the operation was successful, the service returns the  _204_  (No content) status code without any content.
+
+If the specified quiz does not exist, the server returns  _404_  (Not found). If the specified user is not the author of this quiz, the response is the  _403_  (Forbidden) status code.
+
+
+
+**Get a Quiz set by Id**
+---------------------------------------
+To get a quiz set by id, the client sends the GET request to  **/api/quizSet/{id}**.
+
+The server response is a JSON with four fields: id, category, description and quizzes. Here is an example:
+````JSON
+{
+        "id": 174,
+        "category": "Test",
+        "description": "Test",
+        "quizzes": [
+            {
+                "id": 173,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            },
+            {
+                "id": 175,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            },
+            {
+                "id": 176,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            }
+        ]
+    }
+````
+**Get all Quiz sets**
+---------------------------------------
+To get all quiz sets, the client sends the GET request to  **/api/allQuizSets**.
+
+````JSON
+[
+    
+    {
+        "id": 174,
+        "category": "Test",
+        "description": "Test",
+        "quizzes": [
+            {
+                "id": 173,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            },
+            {
+                "id": 175,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            },
+            {
+                "id": 176,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            }
+        ]
+    },
+    {
+        "id": 178,
+        "category": "Test",
+        "description": "Test",
+        "quizzes": [
+            {
+                "id": 177,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            },
+            {
+                "id": 179,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            },
+            {
+                "id": 180,
+                "title": "Coffee drinks",
+                "text": "Select only coffee drinks.",
+                "options": [
+                    "Americano",
+                    "Tea",
+                    "Cappuccino",
+                    "Sprite"
+                ]
+            }
+        ]
+    }
+]
+
+
 
